@@ -1,18 +1,18 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
-import thunk from 'redux-thunk'
-import logger from 'redux-logger'
-import AppReducer from '../reducers/AppReducer'
-import spotifyApiReducer from "../reducers/spotifyApiReducer";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import playlistReducer from '../reducers/playlistReducer';
+import spotifyApiReducer from '../reducers/spotifyApiReducer';
 
 const reducers = {
-  AppReducer,
+  playlistReducer,
   spotifyApiReducer,
-}
+};
 
-const middleware = [thunk]
+const middleware = [thunk];
 
 if (process.env.NODE_ENV !== 'production') {
-  middleware.push(logger)
+  middleware.push(logger);
 }
 
-export default createStore(combineReducers(reducers), {}, applyMiddleware(...middleware))
+export default createStore(combineReducers(reducers), {}, applyMiddleware(...middleware));

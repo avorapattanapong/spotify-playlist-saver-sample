@@ -8,4 +8,19 @@ export const generateRandomString = (length) => {
     counter += 1;
   }
   return result;
-}
+};
+
+export const getImageUrl = (height, images) => {
+  if (!images) {
+    return '';
+  }
+
+  let imageUrl = '';
+  images.forEach((image) => {
+    if (image.height === height) {
+      imageUrl = image.url;
+    }
+  });
+
+  return imageUrl;
+};

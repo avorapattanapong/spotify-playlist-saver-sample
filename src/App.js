@@ -1,57 +1,81 @@
-import logo from './Spotify_Logo_RGB_Green.png';
 import './App.css';
-import {Box, Button} from "@mui/material";
-import {useEffect} from "react";
-import {getAuthUrl} from "./api/spotifyClient";
-import {useSelector} from "react-redux";
-import SpotifyWebApi from "spotify-web-api-js";
-import {createClient} from "./actions/spotifyApiActions";
-import SpotifyPlaylist from "./components/SpotifyPlaylist";
-import AppHeader from "./components/AppHeader";
+import {
+  Alert, AlertTitle, Box, Button, Grid,
+} from '@mui/material';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import SpotifyWebApi from 'spotify-web-api-js';
+import logo from './Spotify_Logo_RGB_Green.png';
+import { getAuthUrl } from './api/spotifyClient';
+import { createClient } from './actions/spotifyApiActions';
+import SpotifyPlaylist from './components/SpotifyPlaylist';
+import AppHeader from './components/AppHeader';
+import SavedPlaylist from './components/SavedPlaylist';
 
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if(window.location.hash) {
-      console.log(window.location.hash);
+    if (window.location.hash) {
       const parsedHash = new URLSearchParams(
-        window.location.hash.substring(1) // skip the first char (#)
+        window.location.hash.substring(1), // skip the first char (#)
       );
 
       const spotifyClient = new SpotifyWebApi();
-      spotifyClient.setAccessToken(parsedHash.get("access_token"));
+      spotifyClient.setAccessToken(parsedHash.get('access_token'));
 
-      createClient(spotifyClient);
+      dispatch(createClient(spotifyClient));
     }
   });
 
   const stateCode = useSelector((state) => state.spotifyApiReducer.spotifyApi.state);
+  const error = useSelector((state) => state.spotifyApiReducer.spotifyApi.error);
+  const errorHelpMessage = error && error.status === 401 ? ' Please login again' : '';
+
   let isAuthenticated = false;
-  if(window.location.hash) {
+  if (window.location.hash) {
     const parsedHash = new URLSearchParams(
-      window.location.hash.substring(1) // skip the first char (#)
+      window.location.hash.substring(1), // skip the first char (#)
     );
-    isAuthenticated = parsedHash.get("access_token");
+    isAuthenticated = parsedHash.get('access_token');
   }
 
   return (
     <div className="App">
-      <header className="App-header">
       { !isAuthenticated && (
-          <Box>
-            <img src={logo} alt="logo" />
-            <p>
-              Click Below to login
-            </p>
-            <Button variant="outlined" href={getAuthUrl(stateCode)}>Login</Button>
-          </Box>
-      )}
-      { isAuthenticated && (
         <Box>
-          <AppHeader />
-          <SpotifyPlaylist />
+          <img width="600px" src={logo} alt="logo" />
+          <p>
+            Click Below to login
+          </p>
+          <Button variant="outlined" href={getAuthUrl(stateCode)}>Login</Button>
         </Box>
       )}
-      </header>
+      { isAuthenticated && (
+        <>
+          <AppHeader />
+          { error && (
+            <Box sx={{ marginBottom: '50px' }}>
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                There was a problem completing your request
+                {' '}
+                <strong>{errorHelpMessage}</strong>
+              </Alert>
+            </Box>
+          )}
+          <Box>
+            <Grid container spacing={20}>
+              <Grid item xs={6}>
+                <SpotifyPlaylist />
+              </Grid>
+              <Grid item xs={6}>
+                <SavedPlaylist />
+              </Grid>
+            </Grid>
+          </Box>
+        </>
+      )}
     </div>
   );
 }
