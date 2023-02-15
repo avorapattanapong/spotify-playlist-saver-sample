@@ -36,7 +36,7 @@ function PlaylistItem({ song }) {
   }));
 
   return (
-    <ListItem key={song.id} ref={drag} alignItems="flex-start">
+    <ListItem className="listItem" key={song.id} ref={drag} alignItems="flex-start">
       <ListItemAvatar>
         <Avatar alt={`${name}_by_${artist}_thumbnail`} src={thumbnailSrc} />
       </ListItemAvatar>

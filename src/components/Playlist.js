@@ -14,13 +14,6 @@ function Playlist({ name, songs }) {
       canDrop: monitor.canDrop(),
     }),
   }));
-  const isActive = canDrop && isOver;
-  let backgroundColor = '#222';
-  if (isActive) {
-    backgroundColor = 'darkgreen';
-  } else if (canDrop) {
-    backgroundColor = 'darkkhaki';
-  }
 
   return (
     <List ref={drop} sx={{ width: '100%', minHeight: '150px', bgcolor: 'background.paper' }}>

@@ -29,42 +29,56 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Libraries Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### React JS
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Used as framework for the webapp. Also uses create-react-app script to bootstrap project
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### React-Redux
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Used as global storage framework which stores ui states and temporary in memory playlist. Also used as
+storage for Spotify search results and configured Spotify client
 
-## Learn More
+### MUI For React
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+React based UI library built around materials UI. Used for UI components.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Spotify Web API
 
-### Code Splitting
+Spotify API client wrapper
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### React DnD
 
-### Analyzing the Bundle Size
+Drag and Drop library for react.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Eslint
 
-### Making a Progressive Web App
+Code formatter.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Dev Notes
 
-### Advanced Configuration
+1. Spotify API requires authentiction which is achieved by implicit OAuth. After clicking "Login" button, you will be taken 
+to Spotify login page. Implicit Oauth flow is initiated, and you will be redirected back to localhost:3000 with access token 
+in the URL query. With access token in the URL query, the search and save page is shown.
+2. Search for artist, music, or album names in the search bar and click "Search" to get results. A button is used to initiate
+search rather than search as you type to reduce complexity with implementation and remove the need to optimize performance.
+3. Drag song to the list on the right and drop it to save it in memory. Clicking "Save" will save it to browser local storage.
+This is again done to simplify implementation and remove the need to optimize performance.
+4. Clicking "Clear" will clear songs from local storage.
+5. Persisting, retrieving, and clearing playlist is encapsulated so that storage can be changed to different medium is necessary.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Next Steps
 
-### Deployment
+This project can be further improved with the following steps:
+1. At css transitions to drag and drop action to make the UI feel more fluid and natural.
+2. Show user avatar and add logout dropdown menu on the top right user avatar placeholder
+3. Add ability to remove single song from the saved playlist
+4. Add unit tests to ensure maintainability
+5. Optimize code by factoring out components that are being reused
+6. CSS fixes that will help ensure consistency such as fonts and font sizes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Gotchas
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. When running into an error message with a text like "Pleas login again", go to localhost:3000 (removing all URL query parameters).
+Access token is expired and oauth flow needs to be reinitiated.

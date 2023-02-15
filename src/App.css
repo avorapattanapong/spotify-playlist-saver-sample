@@ -51,3 +51,7 @@
   height: 35px;
   margin-right: 20px;
 }
+
+.listItem:hover {
+  cursor: pointer;
+}

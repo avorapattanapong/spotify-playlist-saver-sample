@@ -21,7 +21,7 @@ function SpotifyPlaylist() {
   const dispatch = useDispatch();
 
   return (
-    <Card sx={{ minWidth: '250px' }}>
+    <Card sx={{ minWidth: '400px', minHeight: '485px' }}>
       <CardContent sx={{ padding: '10px 24px 24px 24px' }}>
         <Typography variant="h4" component="div">
           Search Results
@@ -29,7 +29,7 @@ function SpotifyPlaylist() {
         <Divider sx={{ marginTop: '10px', marginBottom: '10px' }} />
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={10}>
+            <Grid item xs={8}>
               <TextField
                 id="standard-basic"
                 label="Artists, songs, or albums"
@@ -39,7 +39,7 @@ function SpotifyPlaylist() {
                 sx={{ width: '100%' }}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <Button color="inherit" sx={{ marginTop: '10px' }} onClick={() => dispatch(doSearch(searchText, spotifyClient))}>Search</Button>
             </Grid>
           </Grid>

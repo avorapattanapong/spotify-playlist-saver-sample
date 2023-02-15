@@ -11,6 +11,9 @@ import { createClient } from './actions/spotifyApiActions';
 import SpotifyPlaylist from './components/SpotifyPlaylist';
 import AppHeader from './components/AppHeader';
 import SavedPlaylist from './components/SavedPlaylist';
+import { retrievePlaylist } from './utils/localStorageUtils';
+import { STORAGE_KEY } from './constants/appConstants';
+import { restorePlaylist } from './actions/playlistActions';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +28,11 @@ function App() {
       spotifyClient.setAccessToken(parsedHash.get('access_token'));
 
       dispatch(createClient(spotifyClient));
+    }
+
+    const persistedPlaylist = retrievePlaylist(STORAGE_KEY);
+    if (persistedPlaylist) {
+      dispatch(restorePlaylist(persistedPlaylist));
     }
   });
 
